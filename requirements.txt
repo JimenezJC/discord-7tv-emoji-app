@@ -1,2 +1,2 @@
-Pillow
+imageio
 discord.py
