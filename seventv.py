@@ -1,8 +1,7 @@
 import requests
-import imageio
-import io
-imageio.plugins.freeimage.download()
-
+#import imageio
+#import io
+#imageio.plugins.freeimage.download()
 
 def get_webp_url(url):
     emote_id = url[23:]
@@ -17,6 +16,8 @@ def get_webp_url(url):
 
     return ('No 128x128 file detected')
 
+'''
+Old function that might be used later
 
 def webp_to_gif(url):
     # Download the webp file
@@ -35,7 +36,6 @@ def webp_to_gif(url):
 
     # Return the GIF data as a bytes object
     return gif_buffer.getvalue()
-
-
+'''
 
 
