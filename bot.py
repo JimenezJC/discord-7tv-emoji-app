@@ -17,8 +17,9 @@ async def send_message(message, user_message, is_private):
                 await message.channel.send("You do not have permission to manage emojis.")
                 return
 
+            gif_data, gif_name = response
             try:
-                await message.guild.create_custom_emoji(name="gif", image=response)
+                await message.guild.create_custom_emoji(name=gif_name, image=gif_data)
                 await message.channel.send("Emote Added")
             except discord.HTTPException as e:
                 await message.channel.send(f"An error occurred: {e}")

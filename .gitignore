@@ -1,3 +1,4 @@
 discord_info.txt
 .venv
 .env
+__pycache__

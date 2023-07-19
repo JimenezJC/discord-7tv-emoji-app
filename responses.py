@@ -36,4 +36,7 @@ def addGif(url):
     image = pyvips.Image.new_from_buffer(webp_data, '')
     gif_data = image.write_to_buffer('.gif')
     
-    return gif_data
+    
+    gif_name = seventv.get_emote_name(url)
+
+    return gif_data, gif_name
