@@ -1,54 +1,27 @@
+import io
+import os
 import random
-import seventv
-import requests
+
 from PIL import Image
 import imageio
 import requests
-import os
-import io
-import pyvips
-
+import seventv
 
 def get_response(message: str):
     p_message = message.lower()
 
-    if p_message == 'hello':
-        return 'Hey there!'
-
     if p_message[:3] == ("add"):
         url = p_message.split(" ")[1]
-        return(addGif(url))
+        return addGif(url)
 
-    if p_message == 'help':
+    if p_message == "help":
         return helpText()
 
-    print(p_message[:3])
     return 'I didn\'t understand what you wrote. Try typing "help".'
 
+
 def helpText():
-    return '`This is a help message that you can modify.`'
-
-'''
-keeping old code just in case pyvips needs to be used
-
-def addGif(url):
-    webpUrl = seventv.get_webp_url(url)
-    try:
-        webp_data = requests.get(webpUrl).content
-    except requests.exceptions.RequestException:
-        return ("Invalid URL")
-    
-    image = pyvips.Image.new_from_buffer(webp_data, '')
-    gif_data = image.write_to_buffer('.gif[loop=0]') 
-    
-    
-    gif_name = s
-
-    with open(gif_name, 'wb') as f:
-        f.write(gif_data)
-
-    return gif_data, gif_name
-'''
+    return "`?add <7tv url> to add a 7tv emoji to your server`"
 
 
 def addGif(url):
@@ -56,7 +29,7 @@ def addGif(url):
     try:
         webp_data = requests.get(webpUrl).content
     except requests.exceptions.RequestException:
-        return ("Invalid URL")
+        return "Invalid URL"
 
     # Extract the name from the url and replace .webp extension with .gif
     gif_name = seventv.get_emote_name(url)
@@ -75,7 +48,15 @@ def addGif(url):
 
     # Create a byte buffer and save the gif data into it
     gif_data_buffer = io.BytesIO()
-    imageio.mimwrite(gif_data_buffer, frames, 'GIF', loop=0)
+
+    # Set the duration of each frame based on the original image's frame rate
+    duration_per_frame = image.info.get(
+        "duration", 100
+    )  # Default to 100ms if no duration is set
+
+    imageio.mimwrite(
+        gif_data_buffer, frames, "GIF", duration=duration_per_frame, loop=0
+    )
 
     # Get the gif data as bytes
     gif_data = gif_data_buffer.getvalue()
